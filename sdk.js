@@ -1,0 +1,127 @@
+export default class SimproSDK {
+  #baseUrl;
+  #headers;
+
+  constructor({ fqdn = "", companyId = 0, accessToken = "" }) {
+    this.#baseUrl = `https://${fqdn}/api/v1.0/companies/${companyId}`;
+    this.#headers = {
+      "Authorization": `Bearer ${accessToken}`,
+      "Accept": "application/json",
+      "Content-Type": "application/json",
+    }
+  }
+
+  /**
+   * Ensures that the method string parameter is a valid HTTP verb.
+   * 
+   * @param {string} method
+   * 
+   * @returns {boolean}
+   */
+  #isValidMethod(method) {
+    switch(method) {
+    case "GET":
+      return true;
+    case "POST":
+      return true;
+    case "PATCH":
+      return true;
+    case "DELETE":
+      return true;
+    default:
+      return false;
+    }
+  }
+
+  /**
+   * Ensures that the search type string parameter is valid.
+   * 
+   * @param {string} searchType
+   * 
+   * @returns {boolean}
+   */
+  #isValidSearchType(searchType) {
+    switch(searchType) {
+    case undefined:
+      return true;
+    case "all":
+      return true;
+    case "any":
+      return true;
+    default:
+      return false
+    }
+  }
+
+  /**
+   * Makes an HTTP request to the Simpro instance's API.
+   * 
+   * @param {string} method
+   * @param {string} resource
+   * @param {Object} body
+   * @param {Object} opts
+   * 
+   * @returns {Response|Object}
+   */
+  async send(method, resource = "", body = null, opts = {
+    // searchType: string<all|any>
+    // search:     string[]
+    // columns:    string[]
+    // orderBy:    string[]
+    // page:       uint
+    // pageSize:   uint<1..250>
+    // limit:      uint
+  }) {
+    if (!this.#isValidMethod(method))
+      return { error: "Invalid method string: Must be one of: GET|POST|PATCH|DELETE" };
+
+    if (!this.#isValidSearchType(opts.searchType))
+      return { error: "Invalid search type: Must be one of: any|all" };
+
+    if (opts.limit && opts.limit < 0)
+      return { error: "Invalid limit value: Must be zero or a positive integer" };
+
+    let
+      searchType = "",
+      search     = "",
+      columns    = "",
+      orderBy    = "",
+      page       = "",
+      pageSize   = "",
+      limit      = "";
+
+    // Set when not `undefined`
+    if (opts.searchType)
+      searchType = `search=${opts.searchType}`;
+
+    if (opts.search)
+      search = `&${opts.search.join("&")}`;
+
+    if (opts.columns)
+      columns = `&columns=${opts.columns.join(",")}`;
+
+    if (opts.orderBy)
+      orderBy = `&orderby=${opts.orderBy.join(",")}`;
+
+    if (opts.page)
+      page = `&page=${opts.page}`;
+
+    if (opts.pageSize)
+      pageSize = `&pageSize=${opts.pageSize}`;
+
+    if (opts.limit)
+      limit = `&limit=${opts.limit}`;
+
+    // Query the API
+    const apiResponse = await fetch(
+      `${this.#baseUrl}/${resource}?${searchType}${search}${columns}${orderBy}${page}${pageSize}${limit}`,
+      {
+        method,
+        headers: this.#headers,
+        body,
+      },
+    );
+
+    return apiResponse;
+  }
+}
