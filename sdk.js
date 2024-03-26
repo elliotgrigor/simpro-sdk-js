@@ -152,9 +152,6 @@ export default class SimproSDK {
 
       const dataPage = await apiResponse.json();
 
-      if (dataPage.length === 0)
-        break;
-
       dataPages[`pg${pageNum}`] = dataPage;
 
       pageNum += 1;
