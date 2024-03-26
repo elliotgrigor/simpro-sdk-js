@@ -2,7 +2,8 @@
   "name": "simpro-sdk-js",
   "version": "0.1.0",
   "tasks": {
-    "ex:employees": "deno run --allow-net examples/get_employees.js"
+    "ex:employees": "deno run --allow-net examples/get_employees.js",
+    "ex:pages": "deno run --allow-net examples/get_employee_pages.js"
   },
   "lock": false,
 }

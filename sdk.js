@@ -124,4 +124,42 @@ export default class SimproSDK {
 
     return apiResponse;
   }
+
+  /**
+   * Returns all pages of data from a resource.
+   * 
+   * @param {string} resource
+   * @param {Object} opts
+   * 
+   * @returns {Object}
+   */
+  async getPages(resource, opts = {}) {
+    const dataPages = {};
+
+    let resultPages = null;
+    let pageNum = 1;
+
+    do {
+      opts.page = pageNum;
+
+      const apiResponse = await this.send("GET", resource, null, opts);
+
+      if (apiResponse.status !== 200)
+        return { error: `Returned non-200 response: ${apiResponse.status} ${apiResponse.statusText}` };
+
+      if (!resultPages)
+        resultPages = parseInt(apiResponse.headers.get("result-pages"));
+
+      const dataPage = await apiResponse.json();
+
+      if (dataPage.length === 0)
+        break;
+
+      dataPages[`pg${pageNum}`] = dataPage;
+
+      pageNum += 1;
+    } while (pageNum <= resultPages);
+
+    return dataPages;
+  }
 }
