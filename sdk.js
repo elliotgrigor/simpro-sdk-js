@@ -112,9 +112,14 @@ export default class SimproSDK {
     if (opts.limit)
       limit = `&limit=${opts.limit}`;
 
+    let querySeparator = "";
+
+    if (method === "GET")
+      querySeparator = "?";
+
     // Query the API
     const apiResponse = await fetch(
-      `${this.#baseUrl}/${resource}?${searchType}${search}${columns}${orderBy}${page}${pageSize}${limit}`,
+      `${this.#baseUrl}/${resource}${querySeparator}${searchType}${search}${columns}${orderBy}${page}${pageSize}${limit}`,
       {
         method,
         headers: this.#headers,
