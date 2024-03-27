@@ -11,7 +11,7 @@ async function createEmployee() {
   // send(method, resource = "", body = null, opts = {})
   const res = await sdk.send("POST", "employees/", {
     Name: "John Smith",
-    Position: "Electrical Engineer"
+    Position: "Electrical Engineer",
     DateOfBirth: "1970-01-01",
     DateOfHire: "2024-02-17",
   });
