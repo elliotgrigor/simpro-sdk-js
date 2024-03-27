@@ -123,7 +123,7 @@ export default class SimproSDK {
       {
         method,
         headers: this.#headers,
-        body,
+        body: JSON.stringify(body),
       },
     );
 
