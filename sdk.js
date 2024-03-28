@@ -117,13 +117,16 @@ export default class SimproSDK {
     if (method === "GET")
       querySeparator = "?";
 
+    if (body)
+      body = JSON.stringify(body);
+
     // Query the API
     const apiResponse = await fetch(
       `${this.#baseUrl}/${resource}${querySeparator}${searchType}${search}${columns}${orderBy}${page}${pageSize}${limit}`,
       {
         method,
         headers: this.#headers,
-        body: JSON.stringify(body),
+        body,
       },
     );
 
