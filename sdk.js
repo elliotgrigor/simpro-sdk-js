@@ -167,4 +167,21 @@ export default class SimproSDK {
 
     return dataPages;
   }
+
+  /**
+   * Returns all invoices in a paginated format.
+   *
+   * @param {Object} opts
+   *
+   * @returns {Object}
+   */
+  async getInvoices(opts = {}) {
+    const invoicePages = await this.getPages("invoices/", opts);
+
+    if (invoicePages.error) {
+      return console.log(invoicePages.error);
+    }
+
+    return invoicePages;
+  }
 }
