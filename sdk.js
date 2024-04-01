@@ -184,4 +184,21 @@ export default class SimproSDK {
 
     return invoicePages;
   }
+
+  /**
+   * Returns all customers in a paginated format.
+   *
+   * @param {Object} opts
+   *
+   * @return {Object}
+   */
+  async getCustomers(opts = {}) {
+    const customerPages = await this.getPages("customers/", opts);
+
+    if (customerPages.error) {
+      return console.log(customerPages.error);
+    }
+
+    return customerPages;
+  }
 }
