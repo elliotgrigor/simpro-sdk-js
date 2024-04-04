@@ -218,4 +218,27 @@ export default class SimproSDK {
 
     return employeePages;
   }
+
+  /**
+   * Returns the data relating to the specified employee ID.
+   *
+   * @param {uint} id 
+   * @param {string[]} columns
+   *
+   * @return {Object}
+   */
+  async getEmployeeById(id = null, columns = []) {
+    if (!id || id <= 0) {
+      return { error: "Invalid `id` parameter: Must be a positive integer" };
+    }
+
+    const res = await this.send("GET", `employees/${id}`, null, { columns });
+
+    if (res.error) {
+      return res;
+    }
+
+    const employee = await res.json();
+    return employee; 
+  }
 }
