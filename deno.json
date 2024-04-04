@@ -5,7 +5,8 @@
     "ex:get": "deno run --allow-net examples/generic_get.js",
     "ex:get_pages": "deno run --allow-net examples/generic_get_pages.js",
     "ex:get_invoices": "deno run --allow-net examples/get_invoices.js",
-    "ex:get_customers": "deno run --allow-net examples/get_customers.js"
+    "ex:get_customers": "deno run --allow-net examples/get_customers.js",
+    "ex:get_employees": "deno run --allow-net examples/get_employees.js"
   },
   "lock": false
 }

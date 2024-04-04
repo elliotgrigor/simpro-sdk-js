@@ -201,4 +201,21 @@ export default class SimproSDK {
 
     return customerPages;
   }
+
+  /**
+   * Returns all the employees in a paginated format.
+   *
+   * @param {Object} opts
+   *
+   * @return {Object}
+   */
+  async getEmployees(opts = {}) {
+    const employeePages = await this.getPages("employees/", opts);
+
+    if (employeePages.error) {
+      return console.log(employeePages.error);
+    }
+
+    return employeePages;
+  }
 }
