@@ -1,6 +1,6 @@
 {
   "name": "simpro-sdk-js",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "tasks": {
     "ex:get": "deno run --allow-net examples/generic_get.js",
     "ex:get_pages": "deno run --allow-net examples/generic_get_pages.js",
